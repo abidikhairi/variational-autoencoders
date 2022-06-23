@@ -17,9 +17,10 @@ class MLP(nn.Module):
 
 
 class VanillaAE(nn.Module):
-    def __init__(self, input_size, hidden_size, output_size):
+    def __init__(self, input_size, hidden_size, output_size, gray_scale=False):
         super(VanillaAE, self).__init__()
         
+        self.gray_scale = gray_scale
         self.encoder = MLP(input_size, hidden_size, output_size)
         self.decoder = MLP(output_size, hidden_size, input_size)
 
@@ -27,6 +28,8 @@ class VanillaAE(nn.Module):
     def forward(self, x):
         z = self.encoder(x)
         x_rec = self.decoder(z)
+        if self.gray_scale:
+            x_rec = th.sigmoid(x_rec)
         return z, x_rec
 
 

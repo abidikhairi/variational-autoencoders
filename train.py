@@ -18,6 +18,7 @@ def main(args):
 
     batch_size = args.batch_size
     test_batch_size = args.test_batch_size
+    is_gray_scale = args.is_gray_scale
     epochs = args.epochs
     lr = args.lr
     weight_decay = args.weight_decay
@@ -42,7 +43,7 @@ def main(args):
     hidden_size = 128
     code_size = 32
 
-    model = VanillaAE(feature_size, hidden_size, code_size)
+    model = VanillaAE(feature_size, hidden_size, code_size, is_gray_scale)
     
     loss_fn = nn.MSELoss()
     optimizer = optim.Adam(model.parameters(), lr=lr, weight_decay=weight_decay)
@@ -93,7 +94,8 @@ if __name__ == '__main__':
     parser.add_argument('--lr', type=float, default=3e-4, help='learning rate (default: 0.01)')
     parser.add_argument('--weight-decay', type=float, default=10e-6, help='weight decay (default: 10e-6)')
     parser.add_argument('--device', type=str, default='cuda', help='cuda or cpu')
-
+    parser.add_argument('--is-gray-scale', default=False, help='wether images are gray scale or not (use sigmoid or not)')
+    
     args = parser.parse_args()
     
     main(args)
