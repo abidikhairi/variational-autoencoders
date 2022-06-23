@@ -20,6 +20,7 @@ def main(args):
     test_batch_size = args.test_batch_size
     epochs = args.epochs
     lr = args.lr
+    weight_decay = args.weight_decay
 
     device = th.device(args.device)
 
@@ -44,7 +45,7 @@ def main(args):
     model = VanillaAE(feature_size, hidden_size, code_size)
     
     loss_fn = nn.MSELoss()
-    optimizer = optim.Adam(model.parameters(), lr=lr)
+    optimizer = optim.Adam(model.parameters(), lr=lr, weight_decay=weight_decay)
 
     model.to(device)
 
@@ -92,7 +93,8 @@ if __name__ == '__main__':
                         help='input batch size for testing (default: 1000)')
     parser.add_argument('--epochs', type=int, default=20, metavar='N',
                         help='number of epochs to train (default: 20)')
-    parser.add_argument('--lr', type=float, default=0.01, metavar='LR', help='learning rate (default: 0.01)')
+    parser.add_argument('--lr', type=float, default=3e-4, metavar='LR', help='learning rate (default: 0.01)')
+    parser.add_argument('--weight-decay', type=float, default=10e-6,)
     parser.add_argument('--device', type=str, default='cuda', help='cuda or cpu')
 
     args = parser.parse_args()
