@@ -1,5 +1,17 @@
+import json
 import numpy as np
 import matplotlib.pyplot as plt
+
+
+def save_init_params(params, save_path):
+    """
+    Save initial parameters.
+    """
+    if not isinstance(params, dict):
+        raise TypeError('params must be a dict')
+    
+    with open(save_path, 'w') as f:
+        json.dump(params, f)
 
 
 def viz_reconstructed_images(original, reconstructed, n_images=10, save_path=None):
