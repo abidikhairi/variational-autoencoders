@@ -87,14 +87,11 @@ def main(args):
 if __name__ == '__main__':
     parser = argparse.ArgumentParser(description='PyTorch Autoencoder Example on MNIST')
     
-    parser.add_argument('--batch-size', type=int, default=128, metavar='N',
-                        help='input batch size for training (default: 128)')
-    parser.add_argument('--test-batch-size', type=int, default=1000, metavar='N',
-                        help='input batch size for testing (default: 1000)')
-    parser.add_argument('--epochs', type=int, default=20, metavar='N',
-                        help='number of epochs to train (default: 20)')
-    parser.add_argument('--lr', type=float, default=3e-4, metavar='LR', help='learning rate (default: 0.01)')
-    parser.add_argument('--weight-decay', type=float, default=10e-6,)
+    parser.add_argument('--batch-size', type=int, default=128, help='input batch size for training (default: 128)')
+    parser.add_argument('--test-batch-size', type=int, default=1000, help='input batch size for testing (default: 1000)')
+    parser.add_argument('--epochs', type=int, default=20, help='number of epochs to train (default: 20)')
+    parser.add_argument('--lr', type=float, default=3e-4, help='learning rate (default: 0.01)')
+    parser.add_argument('--weight-decay', type=float, default=10e-6, help='weight decay (default: 10e-6)')
     parser.add_argument('--device', type=str, default='cuda', help='cuda or cpu')
 
     args = parser.parse_args()
