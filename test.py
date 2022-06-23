@@ -3,7 +3,7 @@ import json
 import torch as th
 from torchvision import datasets, transforms
 
-from models import VanillaAE
+from models import VanillaAE, CNNAE
 from utils import viz_reconstructed_images
 
 
@@ -31,6 +31,8 @@ def main(args):
     
     if model_type == 'vanilla-ae':
         model = VanillaAE(**model_init)
+    elif model_type == 'cnn-ae':
+        model = CNNAE(**model_init)
     else:
         raise NotImplemented('model {} type not implemented'.format(model_type))
 
