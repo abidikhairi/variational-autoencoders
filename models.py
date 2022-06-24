@@ -21,6 +21,7 @@ class VanillaAE(nn.Module):
     def __init__(self, input_size, hidden_size, output_size, gray_scale=False):
         super(VanillaAE, self).__init__()
         
+        self.code_size = output_size
         self.gray_scale = gray_scale
         self.encoder = MLP(input_size, hidden_size, output_size)
         self.decoder = MLP(output_size, hidden_size, input_size)
@@ -84,6 +85,8 @@ class CNNDecoder(nn.Module):
 class CNNAE(nn.Module):
     def __init__(self, in_channels, code_size):
         super(CNNAE, self).__init__()
+        
+        self.code_size = code_size
 
         self.encoder = CNNEncoder(in_channels, code_size)
         self.decoder = CNNDecoder(in_channels, code_size)
