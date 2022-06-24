@@ -39,3 +39,22 @@ def viz_reconstructed_images(original, reconstructed, n_images=10, save_path=Non
         plt.savefig(save_path)
     else:
         plt.show()
+
+
+def viz_images(images, n_images=10, save_path=None):
+    """
+    Visualize images.
+    """
+    fig, axes = plt.subplots(nrows=1, ncols=n_images, figsize=(20, 4))
+    fig.suptitle('generated images from latent space')    
+    
+    for i in range(n_images):
+        ax = axes[i]
+        ax.imshow(images[i], cmap='gray')
+        ax.axis('off')
+    
+    
+    if save_path is not None:
+        plt.savefig(save_path)
+    else:
+        plt.show()
