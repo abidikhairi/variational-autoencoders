@@ -65,6 +65,7 @@ def main(args):
     save_init_params(params, './results/{}-init.json'.format(model_type))
 
     loss_fn = nn.MSELoss()
+    kl_div_fn = nn.KLDivLoss()
     optimizer = optim.Adam(model.parameters(), lr=lr, weight_decay=weight_decay)
 
     model.to(device)
@@ -77,7 +78,15 @@ def main(args):
             x = x.to(device)
             optimizer.zero_grad()
             z, x_rec = model(x)
-            loss = loss_fn(x_rec, x)
+
+            n_z = (z - th.mean(z, dim=0)) / th.std(z, dim=0)
+            gaussian_noise = th.randn(z.shape).to(device)
+            reconstruction_loss = loss_fn(x_rec, x)
+
+            generation_loss = kl_div_fn(n_z, gaussian_noise)
+            
+            loss = reconstruction_loss + generation_loss
+
             loss.backward()
             optimizer.step()
             train_loss.append(loss.item())
@@ -85,8 +94,15 @@ def main(args):
         for x, _ in validloader:
             x = x.to(device)
             z, x_rec = model(x)
-            loss = loss_fn(x_rec, x)
+            
+            n_z = (z - th.mean(z, dim=0)) / th.std(z, dim=0)
 
+            gaussian_noise = th.randn(z.shape).to(device)
+            reconstruction_loss = loss_fn(x_rec, x)
+
+            generation_loss = kl_div_fn(n_z, gaussian_noise)
+            
+            loss = reconstruction_loss + generation_loss
             valid_loss.append(loss.item())
         
         logger.info(f'epoch {epoch + 1} | train loss: {np.mean(train_loss):.4f} | valid loss: {np.mean(valid_loss):.4f}')
